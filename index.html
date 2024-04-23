@@ -23,6 +23,35 @@
     <div id="container">
         <h1>Welcome to Sample Web App</h1>
         <p>This is the front end.</p>
+
+        <!-- Form Submission -->
+        <form action="/submit-form" method="post">
+            <input type="text" name="username" placeholder="Enter your username">
+            <input type="submit" value="Submit">
+        </form>
+
+        <!-- AJAX Request -->
+        <button id="ajax-button">Make AJAX Request</button>
+
+        <!-- Hyperlink -->
+        <a href="/backend-endpoint">Click me for backend</a>
     </div>
+
+    <!-- AJAX Request Script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#ajax-button').click(function() {
+                $.ajax({
+                    url: '/api/endpoint',
+                    type: 'POST',
+                    data: { key: 'value' },
+                    success: function(response) {
+                        // Handle the response from the backend
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
