@@ -6,7 +6,6 @@ project/utils/elasticache_interaction.py
 
 This structure reflects the division of the code into frontend, backend, and utility components:
 
-
 index.html: HTML file for the web interface.
 app.py: Python file containing the Flask application code.
 elasticache_interaction.py: Python file containing the code for interacting with Elasticache Redis.
@@ -30,3 +29,16 @@ Connect to RDS: Once the RDS instance is ready, note down the endpoint, username
 Step 4: Set Up Elasticache
 Create Elasticache Cluster: Go to the ElastiCache dashboard, click on "Create," and choose Redis as the engine. Configure the cluster settings and security group.
 Connect to Elasticache: Note down the endpoint of the Elasticache cluster. Configure your backend application to connect to this Elasticache cluster using the endpoint.
+
+Deployment Steps:
+===============
+Deploy the frontend code on one EC2 instance:
+Copy the index.html file to the EC2 instance.
+Configure a web server (e.g., Nginx or Apache) to serve the static files.
+Update the frontend code to include the IP address of the backend EC2 instance.
+Deploy the backend code on another EC2 instance:
+Copy the app.py file to the EC2 instance.
+Install Python and Flask on the EC2 instance.
+Run the Flask application on the EC2 instance.
+Ensure that the security groups of both EC2 instances allow traffic between them on the necessary ports (e.g., port 5000 for the Flask application).
+Access the frontend application by navigating to the public IP address or DNS name of the frontend EC2 instance in a web browser.
