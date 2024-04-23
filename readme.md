@@ -32,13 +32,61 @@ Connect to Elasticache: Note down the endpoint of the Elasticache cluster. Confi
 
 Deployment Steps:
 ===============
-Deploy the frontend code on one EC2 instance:
-Copy the index.html file to the EC2 instance.
-Configure a web server (e.g., Nginx or Apache) to serve the static files.
-Update the frontend code to include the IP address of the backend EC2 instance.
-Deploy the backend code on another EC2 instance:
-Copy the app.py file to the EC2 instance.
-Install Python and Flask on the EC2 instance.
-Run the Flask application on the EC2 instance.
-Ensure that the security groups of both EC2 instances allow traffic between them on the necessary ports (e.g., port 5000 for the Flask application).
-Access the frontend application by navigating to the public IP address or DNS name of the frontend EC2 instance in a web browser.
+Frontend Setup (EC2 Instance 1):
+--------------------------------
+Install Apache: SSH into your EC2 instance and install Apache web server.
+
+sudo yum update -y ;
+sudo yum install httpd -y;
+Copy Frontend Code: Transfer your frontend code (including index.html) to the /var/www/html directory.
+
+
+Configure Apache: Configure Apache to serve your frontend files. Create or edit the Apache configuration file (/etc/httpd/conf/httpd.conf) and add the following configuration:
+apache
+
+<Directory "/var/www/html">
+    AllowOverride All
+    Require all granted
+</Directory>
+
+Start Apache: Start the Apache web server and enable it to start on boot.
+
+sudo systemctl start httpd
+sudo systemctl enable httpd
+
+Open Ports: Open port 80 in the security group of your EC2 instance to allow HTTP traffic.
+
+Backend Setup (EC2 Instance 2):
+--------------------
+Install Python and Flask: SSH into your second EC2 instance and install Python and Flask.
+
+
+sudo yum update -y
+sudo yum install python3 python3-pip -y
+sudo pip3 install flask
+Copy Backend Code: Transfer your backend code (e.g., app.py) to the desired directory on your EC2 instance.
+Run Flask Application: Run your Flask application specifying the host and port.
+
+
+export FLASK_APP=app.py
+flask run --host=0.0.0.0 --port=5000
+Open Ports: Open port 5000 in the security group of your EC2 instance to allow incoming traffic to your Flask application.
+Set Up Apache as Reverse Proxy (Optional): You can set up Apache as a reverse proxy to forward requests to your Flask application. Install the necessary Apache modules and configure the virtual host:
+
+
+sudo yum install mod_wsgi
+Then, create a virtual host configuration file (e.g., /etc/httpd/conf.d/backend.conf) with the following content:
+apache
+
+<VirtualHost *:80>
+    ServerName backend.example.com
+    ProxyPass / http://127.0.0.1:5000/
+    ProxyPassReverse / http://127.0.0.1:5000/
+</VirtualHost>
+Replace backend.example.com with your actual domain name or IP address. After creating the file, restart Apache:
+
+
+sudo systemctl restart httpd
+Now, you should have your frontend hosted on one EC2 instance with Apache serving the static files, and your backend hosted on another EC2 instance with Flask running the backend application. Adjust the configurations as needed based on your specific requirements and environment.
+
+
