@@ -1,23 +1,14 @@
 CODE  setup
 ==========
-project/
-│
-├── frontend/
-│   └── index.html
-│
-├── backend/
-│   └── app.py
-│
-└── utils/
-    └── elasticache_interaction.py
+project/frontend/index.html
+project/backend/app.py
+project/utils/elasticache_interaction.py
 
 This structure reflects the division of the code into frontend, backend, and utility components:
 
-frontend/: Contains the HTML file for the front-end interface.
+
 index.html: HTML file for the web interface.
-backend/: Contains the Flask application for the backend logic.
 app.py: Python file containing the Flask application code.
-utils/: Contains the utility script for interacting with Elasticache Redis.
 elasticache_interaction.py: Python file containing the code for interacting with Elasticache Redis.
 
 AWS setup
